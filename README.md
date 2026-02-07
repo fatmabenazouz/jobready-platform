@@ -6,6 +6,8 @@ JobReady SA is a comprehensive web platform designed to empower Johannesburg you
 
 **Demonstration Video** [https://www.youtube.com/watch?v=m9jbn0mvNL8](https://www.youtube.com/watch?v=m9jbn0mvNL8)
 
+**Design Mockup Screenshots** [https://docs.google.com/document/d/11VZyokxRAKdE0zyXUNrOoUt1lzOtvnA_waSLudAWIiY/edit?usp=sharing](https://docs.google.com/document/d/11VZyokxRAKdE0zyXUNrOoUt1lzOtvnA_waSLudAWIiY/edit?usp=sharing)
+
 ### Problem Statement
 
 Young job seekers in Soweto and surrounding areas face significant barriers:
