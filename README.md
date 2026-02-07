@@ -4,6 +4,8 @@ JobReady SA is a comprehensive web platform designed to empower Johannesburg you
 
 **GitHub Repository**: [https://github.com/fatmabenazouz/jobready-platform](https://github.com/fatmabenazouz/jobready-platform)
 
+**Demonstration Video** [Link](https://www.youtube.com/watch?v=m9jbn0mvNL8)
+
 ### Problem Statement
 
 Young job seekers in Soweto and surrounding areas face significant barriers:
