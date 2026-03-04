@@ -1,7 +1,4 @@
--- JobReady SA Database Schema
--- MySQL Database Schema for Multilingual Job Readiness Platform
 
--- Drop existing tables if they exist (for development)
 DROP TABLE IF EXISTS user_module_progress;
 DROP TABLE IF EXISTS user_training;
 DROP TABLE IF EXISTS training_modules;
@@ -239,7 +236,7 @@ CREATE TABLE training_modules (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
--- USER TRAINING TABLE (Enrollment & Progress)
+-- USER TRAINING TABLE
 -- ============================================
 CREATE TABLE user_training (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -131,7 +131,7 @@ DB_PASSWORD=secure_password_here
 DB_NAME=jobready_db
 
 # JWT Configuration
-JWT_SECRET=your_super_secret_jwt_key_here_minimum_32_characters
+JWT_SECRET=key
 
 # Google Cloud Translation API
 GOOGLE_TRANSLATE_API_KEY=your_google_cloud_api_key
