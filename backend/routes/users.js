@@ -7,22 +7,19 @@
    const { authenticateToken } = require('../middleware/auth');
    const { body, validationResult } = require('express-validator');
    
-   // ── GET /api/users/me — fetch current user's profile ────────
+   // GET /api/users/me
    router.get('/me', authenticateToken, async (req, res) => {
      try {
        const db = req.app.locals.db;
        const [rows] = await db.query(
-         `SELECT
-           id, full_name, phone, email, language, location,
-           date_of_birth, profile_complete, created_at
+         `SELECT id, full_name, phone, email, language, location,
+                 date_of_birth, profile_complete, created_at
           FROM users WHERE id = ?`,
          [req.userId]
        );
-   
        if (rows.length === 0) {
          return res.status(404).json({ success: false, message: 'User not found' });
        }
-   
        res.json({ success: true, data: rows[0] });
      } catch (err) {
        console.error('Error fetching profile:', err);
@@ -30,12 +27,12 @@
      }
    });
    
-   // ── PUT /api/users/me — update current user's profile ───────
+   // PUT /api/users/me
    router.put('/me', authenticateToken, [
-     body('fullName').optional().trim().notEmpty().withMessage('Full name cannot be empty'),
-     body('email').optional().isEmail().withMessage('Invalid email'),
+     body('fullName').optional().trim().notEmpty(),
+     body('email').optional().isEmail(),
      body('location').optional().trim(),
-     body('language').optional().isIn(['en', 'zu', 'st', 'tn']).withMessage('Invalid language'),
+     body('language').optional().isIn(['en', 'zu', 'st', 'tn']),
    ], async (req, res) => {
      try {
        const errors = validationResult(req);
@@ -45,14 +42,13 @@
    
        const { fullName, email, location, language, dateOfBirth } = req.body;
        const db = req.app.locals.db;
-   
        const fields = [];
        const values = [];
    
-       if (fullName)    { fields.push('full_name = ?');    values.push(fullName); }
-       if (email)       { fields.push('email = ?');        values.push(email); }
-       if (location)    { fields.push('location = ?');     values.push(location); }
-       if (language)    { fields.push('language = ?');     values.push(language); }
+       if (fullName)    { fields.push('full_name = ?');     values.push(fullName); }
+       if (email)       { fields.push('email = ?');         values.push(email); }
+       if (location)    { fields.push('location = ?');      values.push(location); }
+       if (language)    { fields.push('language = ?');      values.push(language); }
        if (dateOfBirth) { fields.push('date_of_birth = ?'); values.push(dateOfBirth); }
    
        if (fields.length === 0) {
@@ -66,7 +62,6 @@
          'SELECT id, full_name, phone, email, language, location FROM users WHERE id = ?',
          [req.userId]
        );
-   
        res.json({ success: true, message: 'Profile updated', data: updated[0] });
      } catch (err) {
        console.error('Error updating profile:', err);
@@ -74,7 +69,7 @@
      }
    });
    
-   // ── GET /api/users/me/stats — dashboard statistics ──────────
+   // GET /api/users/me/stats
    router.get('/me/stats', authenticateToken, async (req, res) => {
      try {
        const db = req.app.locals.db;
@@ -90,9 +85,9 @@
        res.json({
          success: true,
          data: {
-           applications:    appCount.count,
-           savedJobs:       savedCount.count,
-           cvs:             cvCount.count,
+           applications:     appCount.count,
+           savedJobs:        savedCount.count,
+           cvs:              cvCount.count,
            trainingProgress: Math.round(training.avg_progress),
          },
        });
