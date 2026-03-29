@@ -1,16 +1,48 @@
-* {
+   :root {
+    --green:       #1DB954;
+    --green-dark:  #159040;
+    --green-light: #d4f5e2;
+    --navy:        #0d1b2a;
+    --navy-mid:    #1a2d42;
+    --gold:        #F5A623;
+    --text:        #0d1b2a;
+    --muted:       #6b7c93;
+    --bg:          #f7f9fb;
+    --white:       #ffffff;
+    --border:      #dde4ed;
+    --radius:      16px;
+    --shadow:      0 4px 24px rgba(13, 27, 42, 0.10);
+    --shadow-lg:   0 12px 48px rgba(13, 27, 42, 0.18);
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
   }
   
   body {
-    margin: 0;
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
   }
   
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  button {
+    font-family: 'Sora', sans-serif;
+  }
+  
+  input, select, textarea {
+    font-family: 'Sora', sans-serif;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
   }
