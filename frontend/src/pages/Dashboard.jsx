@@ -435,13 +435,25 @@
    
                  <div className="dash__card">
                    <div className="dash__card-header">
-                     <span className="dash__card-title">🔒 Privacy & Data (POPIA Compliance)</span>
+                     <span className="dash__card-title">🔒 End User Licence Agreement (EULA) & Privacy Policy</span>
                    </div>
                    <div className="dash__card-body">
                      <p className="dash__popia-text">
-                       Your personal information is stored securely and used only for job matching and platform services,
-                       in full compliance with South Africa's Protection of Personal Information Act (POPIA).
-                       You may request deletion of your data at any time.
+                       End User Licence Agreement (EULA)<br></br>
+                       1. By registering an account or using JobReady SA, you agree to be bound by this agreement. If you do not agree, please do not use the platform. <br></br>
+                       2. JobReady SA grants you a personal, non-transferable, non-exclusive licence to access and use this platform for the purpose of improving your employment readiness. You may not copy, modify, distribute, or commercialise any part of the platform.<br></br>
+                       3. You are responsible for maintaining the confidentiality of your login credentials. You agree to provide accurate information when creating your profile or CV, and not to use the platform for any unlawful purpose.<br></br>
+                       4. All platform content, design, and software remain the property of JobReady SA. Your CV and profile data remain yours — we do not claim ownership over any content you create.<br></br>
+                       5. JobReady SA is provided as an educational and job-readiness tool. We do not guarantee employment outcomes. The platform is provided as-is, and we are not liable for any losses arising from your use of it.<br></br>
+                       6. We reserve the right to suspend or terminate your account if you violate these terms. You may delete your account at any time through the settings page.<br></br>
+                       7. We may update this agreement from time to time. Continued use of the platform after changes are posted constitutes acceptance of the updated terms.<br></br><br></br>
+
+                       Privacy Policy<br></br>
+                       1. In compliance with the Protection of Personal Information Act (POPIA, Act 4 of 2013), we collect your name, email address, and password when you register. If you use the CV builder, we store the employment history, qualifications, and contact details you enter. The training module tracks your course progress. We do not collect any information beyond what is necessary to provide these services.<br></br>
+                       2. Your information is used solely to operate your account, generate your CV, and track your learning progress. We do not sell, share, or use your data for advertising or any purpose outside the platform.<br></br>
+                       3. Your account is secured with JWT-based authentication. Your credentials are stored separately from your CV content. We apply reasonable technical safeguards to protect your data from unauthorised access.<br></br>
+                       4. You have the right to access the personal information we hold about you, to request corrections, and to request deletion of your data at any time. You can exercise these rights through the settings page. You also have the right to lodge a complaint with the Information Regulator of South Africa at www.inforegulator.org.za.<br></br>
+                       5. If you have questions about this policy or how your data is handled, please contact us through the platform's support section.<br></br>
                      </p>
                      <div style={{ display:'flex', gap:'10px', marginTop:'1rem', flexWrap:'wrap' }}>
                        <button className="dash__btn-action dash__btn-action--outline" onClick={() => setToast('📥 Data export requested — email within 24hrs')}>
