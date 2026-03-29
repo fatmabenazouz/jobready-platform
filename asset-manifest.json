@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jobready-platform/static/css/main.66a3146c.css",
+    "main.js": "/jobready-platform/static/js/main.ad0cdb28.js",
+    "index.html": "/jobready-platform/index.html",
+    "main.66a3146c.css.map": "/jobready-platform/static/css/main.66a3146c.css.map",
+    "main.ad0cdb28.js.map": "/jobready-platform/static/js/main.ad0cdb28.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.66a3146c.css",
+    "static/js/main.ad0cdb28.js"
+  ]
+}
