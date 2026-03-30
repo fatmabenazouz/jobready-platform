@@ -1,6 +1,6 @@
 /* ============================================================
    components/AuthModal.jsx — Login & Register Modal
-   Fully translated in English, isiZulu, Sesotho, Setswana
+   Real JWT authentication — no demo fallback
    JobReady SA
    ============================================================ */
    import React, { useState } from 'react';
@@ -20,7 +20,6 @@
        placeholderPW:   'Your password',
        btnLogin:        'Log In →',
        btnLoggingIn:    'Logging in…',
-       hint:            '💡 For demo: enter any credentials to access the platform',
        labelFullName:   'Full Name *',
        placeholderName: 'Your full name',
        labelPhone:      'Phone Number *',
@@ -34,9 +33,12 @@
        placeholderPWNew:'At least 6 characters',
        btnRegister:     'Create Account →',
        btnRegistering:  'Creating account…',
-       errCredentials:  'Please enter your credentials.',
+       errCredentials:  'Please enter your phone number/email and password.',
        errFields:       'Please fill in all required fields.',
        errPassword:     'Password must be at least 6 characters.',
+       errInvalid:      'Incorrect phone number/email or password. Please try again.',
+       errServer:       'Something went wrong. Please try again.',
+       errExists:       'An account with this phone number or email already exists.',
        langEn:          'English',
        langZu:          'isiZulu',
        langSt:          'Sesotho',
@@ -53,7 +55,6 @@
        placeholderPW:   'Iphasiwedi yakho',
        btnLogin:        'Ngena →',
        btnLoggingIn:    'Iyangena…',
-       hint:            '💡 Ukuhlola: faka noma yiziphi iziqu ukufinyelela inkundla',
        labelFullName:   'Igama Eliphelele *',
        placeholderName: 'Igama lakho eliphelele',
        labelPhone:      'Inombolo Yocingo *',
@@ -67,9 +68,12 @@
        placeholderPWNew:'Okungenani izinhlamvu ezingu-6',
        btnRegister:     'Dala I-akhawunti →',
        btnRegistering:  'Idala i-akhawunti…',
-       errCredentials:  'Sicela ufake iziqu zakho.',
+       errCredentials:  'Sicela ufake inombolo yocingo/i-imeyili kanye nephasiwedi.',
        errFields:       'Sicela ugcwalise wonke amasimu adingekayo.',
        errPassword:     'Iphasiwedi kufanele ibe nezinhlamvu ezingu-6 okungenani.',
+       errInvalid:      'Inombolo yocingo/i-imeyili noma iphasiwedi ayilungile. Zama futhi.',
+       errServer:       'Kukhona into engahambanga kahle. Zama futhi.',
+       errExists:       'I-akhawunti enaleli nambolo yocingo noma i-imeyili ikhona kakade.',
        langEn:          'English',
        langZu:          'isiZulu',
        langSt:          'Sesotho',
@@ -86,7 +90,6 @@
        placeholderPW:   'Phasewete ea hao',
        btnLogin:        'Kena →',
        btnLoggingIn:    'E kena…',
-       hint:            '💡 Tlhahlobo: kenya litšobotsi leha e le life ho fumana sethala',
        labelFullName:   'Lebitso le Felletseng *',
        placeholderName: 'Lebitso la hao le felletseng',
        labelPhone:      'Nomoro ea Mohala *',
@@ -100,9 +103,12 @@
        placeholderPWNew:'Bonyane litlhaku tse 6',
        btnRegister:     'Etsa Ak\'haonte →',
        btnRegistering:  'E etsa ak\'haonte…',
-       errCredentials:  'Ka kopo kenya litšobotsi tsa hao.',
+       errCredentials:  'Ka kopo kenya nomoro ea mohala/imeile le phasewete.',
        errFields:       'Ka kopo tlatsa masimo ohle a hlokahalang.',
        errPassword:     'Phasewete e tlameha ho ba le bonyane litlhaku tse 6.',
+       errInvalid:      'Nomoro ea mohala/imeile kapa phasewete ha e nepahale. Leka hape.',
+       errServer:       'Ho entsoe phoso. Leka hape.',
+       errExists:       'Ak\'haonte e nang le nomoro ena ea mohala kapa imeile e se e le teng.',
        langEn:          'English',
        langZu:          'isiZulu',
        langSt:          'Sesotho',
@@ -119,7 +125,6 @@
        placeholderPW:   'Phasewete ya gago',
        btnLogin:        'Tsena →',
        btnLoggingIn:    'E tsena…',
-       hint:            '💡 Demo: tsenya ditshwanelo dife kapa dife go fitlhelela sethala',
        labelFullName:   'Leina le le Tletseng *',
        placeholderName: 'Leina la gago le le tletseng',
        labelPhone:      'Nomoro ya Mogala *',
@@ -133,9 +138,12 @@
        placeholderPWNew:'Bonyane ditlhaka tse 6',
        btnRegister:     'Dira Akhaonto →',
        btnRegistering:  'E dira akhaonto…',
-       errCredentials:  'Ka kopo tsenya ditshwanelo tsa gago.',
+       errCredentials:  'Ka kopo tsenya nomoro ya mogala/imeile le phasewete.',
        errFields:       'Ka kopo tlhola mabala otlhe a a tlhokegang.',
        errPassword:     'Phasewete e tshwanetse go nna le bonyane ditlhaka tse 6.',
+       errInvalid:      'Nomoro ya mogala/imeile kgotsa phasewete ga e nepagetse. Leka gape.',
+       errServer:       'Go na le phoso. Leka gape.',
+       errExists:       'Akhaonto e nang le nomoro eno ya mogala kgotsa imeile e setse e le teng.',
        langEn:          'English',
        langZu:          'isiZulu',
        langSt:          'Sesotho',
@@ -143,16 +151,16 @@
      },
    };
    
+   const API_URL = process.env.REACT_APP_API_URL || 'https://jobready-platform-production.up.railway.app/api';
+   
    const AuthModal = ({ defaultTab = 'login', onClose, onToast, lang = 'en' }) => {
      const [tab, setTab]         = useState(defaultTab);
      const [loading, setLoading] = useState(false);
      const [error, setError]     = useState('');
    
-     // Login fields
      const [loginId, setLoginId] = useState('');
      const [loginPw, setLoginPw] = useState('');
    
-     // Register fields
      const [regName, setRegName]   = useState('');
      const [regPhone, setRegPhone] = useState('');
      const [regEmail, setRegEmail] = useState('');
@@ -164,64 +172,95 @@
      const navigate  = useNavigate();
      const t         = UI[lang] || UI.en;
    
+     // ── Login ────────────────────────────────────────────────
      const handleLogin = async (e) => {
        e.preventDefault();
        setError('');
-       if (!loginId.trim() || !loginPw.trim()) { setError(t.errCredentials); return; }
+       if (!loginId.trim() || !loginPw.trim()) {
+         setError(t.errCredentials);
+         return;
+       }
        setLoading(true);
        try {
-         const res = await fetch(
-           (process.env.REACT_APP_API_URL || 'https://jobready-platform-production.up.railway.app/api') + '/auth/login',
-           {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ identifier: loginId, password: loginPw }),
-           }
-         );
-         if (res.ok) {
-           const data = await res.json();
-           login({ ...data.data.user, token: data.data.token });
-         } else {
-           login({ id:1, fullName: loginId.includes('@') ? 'Demo User' : loginId, phone:'073 456 7890', language: lang, location:'Soweto, Gauteng', demo:true });
+         const res = await fetch(`${API_URL}/auth/login`, {
+           method:  'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body:    JSON.stringify({ identifier: loginId, password: loginPw }),
+         });
+         const data = await res.json();
+   
+         if (!res.ok) {
+           setError(res.status === 401 ? t.errInvalid : t.errServer);
+           setLoading(false);
+           return;
          }
+   
+         // Store JWT and user
+         localStorage.setItem('token', data.data.token);
+         login({ ...data.data.user, token: data.data.token });
+   
+         const welcome = lang === 'zu' ? `Wamukelekile, ${data.data.user.fullName?.split(' ')[0]}!`
+                       : lang === 'st' ? `Oa amohelsoa, ${data.data.user.fullName?.split(' ')[0]}!`
+                       : lang === 'tn' ? `O amogetswe, ${data.data.user.fullName?.split(' ')[0]}!`
+                       : `Welcome back, ${data.data.user.fullName?.split(' ')[0]}!`;
+         onToast(`✅ ${welcome}`);
+         onClose();
+         navigate('/dashboard');
        } catch {
-         login({ id:1, fullName: loginId.includes('@') ? 'Demo User' : loginId, phone:'073 456 7890', language: lang, location:'Soweto, Gauteng', demo:true });
+         setError(t.errServer);
        }
        setLoading(false);
-       onToast('✅ ' + (lang === 'zu' ? 'Wamukelekile!' : lang === 'st' ? 'Oa amohelsoa!' : lang === 'tn' ? 'O amogetswe!' : 'Welcome back!'));
-       onClose();
-       navigate('/dashboard');
      };
    
+     // ── Register ─────────────────────────────────────────────
      const handleRegister = async (e) => {
        e.preventDefault();
        setError('');
-       if (!regName.trim() || !regPhone.trim() || !regLoc.trim() || !regPw.trim()) { setError(t.errFields); return; }
-       if (regPw.length < 6) { setError(t.errPassword); return; }
+       if (!regName.trim() || !regPhone.trim() || !regLoc.trim() || !regPw.trim()) {
+         setError(t.errFields);
+         return;
+       }
+       if (regPw.length < 6) {
+         setError(t.errPassword);
+         return;
+       }
        setLoading(true);
        try {
-         const res = await fetch(
-           (process.env.REACT_APP_API_URL || 'https://jobready-platform-production.up.railway.app/api') + '/auth/register',
-           {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ fullName:regName, phone:regPhone, email:regEmail||undefined, password:regPw, language:regLang, location:regLoc }),
-           }
-         );
-         if (res.ok) {
-           const data = await res.json();
-           login({ ...data.data.user, token: data.data.token });
-         } else {
-           login({ id:Date.now(), fullName:regName, phone:regPhone, email:regEmail, language:regLang, location:regLoc, demo:true });
+         const res = await fetch(`${API_URL}/auth/register`, {
+           method:  'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body:    JSON.stringify({
+             fullName: regName,
+             phone:    regPhone,
+             email:    regEmail || undefined,
+             password: regPw,
+             language: regLang,
+             location: regLoc,
+           }),
+         });
+         const data = await res.json();
+   
+         if (!res.ok) {
+           setError(res.status === 409 ? t.errExists : t.errServer);
+           setLoading(false);
+           return;
          }
+   
+         // Store JWT and user
+         localStorage.setItem('token', data.data.token);
+         login({ ...data.data.user, token: data.data.token });
+   
+         const welcome = lang === 'zu' ? `Sawubona, ${regName.split(' ')[0]}!`
+                       : lang === 'st' ? `Dumela, ${regName.split(' ')[0]}!`
+                       : lang === 'tn' ? `Dumela, ${regName.split(' ')[0]}!`
+                       : `Welcome, ${regName.split(' ')[0]}!`;
+         onToast(`🎉 ${welcome}`);
+         onClose();
+         navigate('/dashboard');
        } catch {
-         login({ id:Date.now(), fullName:regName, phone:regPhone, email:regEmail, language:regLang, location:regLoc, demo:true });
+         setError(t.errServer);
        }
        setLoading(false);
-       const welcome = lang === 'zu' ? `Sawubona, ${regName.split(' ')[0]}!` : lang === 'st' ? `Dumela, ${regName.split(' ')[0]}!` : lang === 'tn' ? `Dumela, ${regName.split(' ')[0]}!` : `Welcome, ${regName.split(' ')[0]}!`;
-       onToast(`🎉 ${welcome}`);
-       onClose();
-       navigate('/dashboard');
      };
    
      return (
@@ -251,25 +290,37 @@
            <div className="modal__body">
              {error && <div className="modal__error">{error}</div>}
    
-             {/* ── Login ── */}
+             {/* ── Login form ── */}
              {tab === 'login' && (
                <form onSubmit={handleLogin}>
                  <div className="form-group">
                    <label className="form-label">{t.labelIdentifier}</label>
-                   <input className="form-input" placeholder={t.placeholderID} value={loginId} onChange={e => setLoginId(e.target.value)} autoComplete="username" />
+                   <input
+                     className="form-input"
+                     placeholder={t.placeholderID}
+                     value={loginId}
+                     onChange={e => setLoginId(e.target.value)}
+                     autoComplete="username"
+                   />
                  </div>
                  <div className="form-group">
                    <label className="form-label">{t.labelPassword}</label>
-                   <input className="form-input" type="password" placeholder={t.placeholderPW} value={loginPw} onChange={e => setLoginPw(e.target.value)} autoComplete="current-password" />
+                   <input
+                     className="form-input"
+                     type="password"
+                     placeholder={t.placeholderPW}
+                     value={loginPw}
+                     onChange={e => setLoginPw(e.target.value)}
+                     autoComplete="current-password"
+                   />
                  </div>
                  <button className="btn-submit" type="submit" disabled={loading}>
                    {loading ? t.btnLoggingIn : t.btnLogin}
                  </button>
-                 <p className="modal__hint">{t.hint}</p>
                </form>
              )}
    
-             {/* ── Register ── */}
+             {/* ── Register form ── */}
              {tab === 'register' && (
                <form onSubmit={handleRegister}>
                  <div className="form-row">
