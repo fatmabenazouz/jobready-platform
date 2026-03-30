@@ -1,3 +1,7 @@
+/* ============================================================
+   pages/LandingPage.jsx — Public-facing landing page
+   JobReady SA
+   ============================================================ */
    import React, { useState } from 'react';
    import { useNavigate } from 'react-router-dom';
    import AuthModal from '../components/AuthModal';
@@ -246,6 +250,7 @@
              defaultTab={modal}
              onClose={() => setModal(null)}
              onToast={setToast}
+             lang={lang}
            />
          )}
    
