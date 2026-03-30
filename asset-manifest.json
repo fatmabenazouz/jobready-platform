@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/jobready-platform/static/css/main.66a3146c.css",
-    "main.js": "/jobready-platform/static/js/main.c0c08890.js",
+    "main.js": "/jobready-platform/static/js/main.fa1a5cff.js",
     "index.html": "/jobready-platform/index.html",
     "main.66a3146c.css.map": "/jobready-platform/static/css/main.66a3146c.css.map",
-    "main.c0c08890.js.map": "/jobready-platform/static/js/main.c0c08890.js.map"
+    "main.fa1a5cff.js.map": "/jobready-platform/static/js/main.fa1a5cff.js.map"
   },
   "entrypoints": [
     "static/css/main.66a3146c.css",
-    "static/js/main.c0c08890.js"
+    "static/js/main.fa1a5cff.js"
   ]
 }
