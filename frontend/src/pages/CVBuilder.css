@@ -1,3 +1,8 @@
+/* ============================================================
+   pages/CVBuilder.css — CV Builder Page Styles
+   JobReady SA
+   ============================================================ */
+
 /* ── Outer wrapper ── */
 .cvb {
     display: flex;
@@ -490,4 +495,47 @@
     .cvb__body { grid-template-columns: 1fr; }
     .cvb__left { display: none; }
     .cvb__topbar-title { display: none; }
+  }
+  
+  /* ============================================================
+     CV Print Styles — used when printing/saving as PDF
+     ============================================================ */
+  @media print {
+    /* Hide everything except the CV document */
+    body * { visibility: hidden; }
+    .cvb__print-area,
+    .cvb__print-area * { visibility: visible; }
+  
+    .cvb__print-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      background: white;
+    }
+  
+    /* Reset colours for print */
+    .cvb__cv-doc {
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+    }
+  
+    .cvb__cv-section-title {
+      color: #159040 !important;
+      border-bottom-color: #d4f5e2 !important;
+    }
+  
+    .cvb__cv-skill-chip {
+      background: #f0f0f0 !important;
+      color: #000 !important;
+    }
+  
+    /* Page setup */
+    @page {
+      margin: 1.5cm;
+      size: A4;
+    }
   }

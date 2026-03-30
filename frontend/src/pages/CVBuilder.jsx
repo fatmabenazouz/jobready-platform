@@ -112,6 +112,12 @@
        }
      };
    
+     // ── Download CV as PDF via browser print ───────────────
+     const downloadPDF = async () => {
+       await saveCV();
+       setTimeout(() => { window.print(); }, 400);
+     };
+   
      const addSkill = () => {
        const s = skillInput.trim();
        if (s && !skills.includes(s)) { setSkills([...skills, s]); setSkillInput(''); }
@@ -150,7 +156,7 @@
              <button className="cvb__btn cvb__btn--outline" onClick={saveCV} disabled={saving}>
                {saving ? 'Saving...' : '💾 Save CV'}
              </button>
-             <button className="cvb__btn cvb__btn--primary" onClick={() => { saveCV(); setToast('📄 CV downloaded as PDF!'); }}>
+             <button className="cvb__btn cvb__btn--primary" onClick={downloadPDF}>
                ⬇ Download PDF
              </button>
            </div>
@@ -307,7 +313,7 @@
                  ))}
                  <div className="cvb__form-actions">
                    <button className="cvb__btn cvb__btn--outline" style={{background:'white',color:'var(--navy)',borderColor:'var(--border)'}} onClick={() => setActiveSection('languages')}>← Back</button>
-                   <button className="cvb__btn cvb__btn--primary" onClick={() => setToast('📄 CV downloaded as PDF!')}>⬇ Download CV</button>
+                   <button className="cvb__btn cvb__btn--primary" onClick={downloadPDF}>⬇ Download CV</button>
                  </div>
                </div>
              )}
@@ -316,6 +322,7 @@
            {/* ── Right: preview ── */}
            <div className="cvb__preview-panel">
              <div className="cvb__preview-label">Live Preview</div>
+             <div className="cvb__print-area">
              <div className={`cvb__cv-doc cvb__cv-doc--${template}`}>
                <div className="cvb__cv-header">
                  <div className="cvb__cv-name">{personal.fullName || 'Your Name'}</div>
@@ -362,6 +369,7 @@
                    <div className="cvb__cv-skills">{selectedLangs.map(l => <span key={l} className="cvb__cv-skill-chip">{l}</span>)}</div>
                  </div>
                )}
+             </div>
              </div>
            </div>
          </div>
